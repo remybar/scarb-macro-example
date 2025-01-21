@@ -1,0 +1,13 @@
+[package]
+name = "dojo_macro"
+version = "0.1.0"
+
+[lib]
+crate-type = ["rlib","cdylib"]
+
+[dependencies]
+cairo-lang-macro = {git = "https://github.com/software-mansion/scarb.git", rev="56999bbcde2a6d5b43b764e72fb7bebdf7a68147" }
+cairo-lang-macro-stable = {git = "https://github.com/software-mansion/scarb.git", rev="56999bbcde2a6d5b43b764e72fb7bebdf7a68147" }
+cairo-lang-parser = "2.9.2"
+cairo-lang-syntax = "2.9.2"
+cairo-lang-primitive-token = "1.0.0"
