@@ -1,2 +1,4 @@
-#[some]
-fn my_func() {}
+#[dojo::model]
+struct MyStruct {
+    x: u8,
+}

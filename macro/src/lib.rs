@@ -6,8 +6,8 @@ use cairo_lang_macro::{attribute_macro, quote, ProcMacroResult, TokenStream};
 use cairo_lang_parser::utils::SimpleParserDatabase;
 use cairo_lang_syntax::node::with_db::SyntaxNodeWithDb;
 
-#[attribute_macro]
-pub fn some(_args: TokenStream, _token_stream: TokenStream) -> ProcMacroResult {
+#[attribute_macro(parent = "dojo")]
+pub fn model(_args: TokenStream, _token_stream: TokenStream) -> ProcMacroResult {
     let db_val = SimpleParserDatabase::default();
     let db = &db_val;
     let code = r#"
