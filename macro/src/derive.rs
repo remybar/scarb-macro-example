@@ -3,6 +3,7 @@ use cairo_lang_macro::{
 };
 use cairo_lang_parser::utils::SimpleParserDatabase;
 use cairo_lang_syntax::node::{ast, kind::SyntaxKind::ItemStruct, Terminal, TypedSyntaxNode};
+use smol_str::ToSmolStr;
 
 /// Example of derive macro.
 /// implements the `Introspect` macro which generates the implementation of the NameTrait
@@ -28,15 +29,20 @@ pub fn introspect(token_stream: TokenStream) -> ProcMacroResult {
 
 pub fn process(db: &SimpleParserDatabase, struct_ast: &ast::ItemStruct) -> TokenStream {
 
-    let struct_name = struct_ast.name(db).text(db).to_string();
+    let name_string = struct_ast.name(db).text(db);
+    let name_token = TokenTree::Ident(Token::new(name_string.clone(), TextSpan::call_site()));
 
-    let impl_string = format!(
-        "impl {struct_name}NameImpl of NameTrait<{struct_name}> {{
-            fn name(self: @{struct_name}) -> ByteArray {{
-                \"{struct_name}\"
-            }} 
-        }}");
+    let impl_string = format!("{}NameImpl", name_string.clone()).to_smolstr();
     let impl_token = TokenTree::Ident(Token::new(impl_string, TextSpan::call_site()));
 
-    quote! { #impl_token }
+    let res_string = format!("\"{}\"", name_string);
+    let res_token = TokenTree::Ident(Token::new(res_string, TextSpan::call_site()));
+
+    quote! {
+        impl #impl_token of NameTrait<#name_token> {
+            fn name(self: @#name_token) -> ByteArray {
+                #res_token
+            } 
+        }
+    }
 }
