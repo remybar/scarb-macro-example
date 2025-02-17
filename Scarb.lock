@@ -2,5 +2,12 @@
 version = 1
 
 [[package]]
+name = "dojo_example"
+version = "0.1.0"
+dependencies = [
+ "dojo_macro",
+]
+
+[[package]]
 name = "dojo_macro"
 version = "0.1.0"
